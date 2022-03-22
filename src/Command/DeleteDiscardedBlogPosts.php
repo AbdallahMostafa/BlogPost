@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\BlogPost;
 
 class DeleteDiscardedBlogPosts extends Command {
 
@@ -36,25 +37,12 @@ class DeleteDiscardedBlogPosts extends Command {
         
             return Command::FAILURE;
         }
-        // this method must return an integer number with the "exit status code"
-        // of the command. You can also use these constants to make code more readable
-
-        // return this if there was no problem running the command
-        // (it's equivalent to returning int(0))
-
-        // or return this if some error happened during the execution
-        // (it's equivalent to returning int(1))
-        // return Command::FAILURE;
-
-        // or return this to indicate incorrect command usage; e.g. invalid options
-        // or missing arguments (it's equ   ivalent to returning int(2))
-        // return Command::INVALID
 
         // check result
         $query = $this->entityManager->createQuery(
             'DELETE 
-            FROM '. BlogPost::class .' c
-            WHERE c.currentState=:state
+            FROM '. BlogPost::class .' post
+            WHERE post.currentState=:state
             '
         )->setParameter('state', 'discarded');
         $query->getResult();
