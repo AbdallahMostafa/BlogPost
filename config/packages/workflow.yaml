@@ -1,0 +1,27 @@
+framework:
+    workflows: 
+        blog_post_publishing:
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'currentState'
+            supports:
+                - App\Entity\BlogPost
+            initial_marking: draft
+            places:
+                - draft
+                - in_review
+                - published
+                - discarded
+            transitions:
+                in_review:
+                    from: draft
+                    to:   in_review
+                published:
+                    from: in_review
+                    to:   published
+                discarded:
+                    from: in_review
+                    to:   discarded
+                
